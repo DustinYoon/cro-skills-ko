@@ -1,0 +1,30 @@
+{
+  "//": "CRO GTM 스킬용 MCP 서버 설정 템플릿. ~/.claude/mcp.json 또는 프로젝트 루트 .mcp.json 에 병합하세요.",
+  "//auth": "자격 증명은 환경변수로 주입하고, 이 파일에 실제 토큰을 커밋하지 마세요.",
+  "mcpServers": {
+    "hubspot": {
+      "command": "npx",
+      "args": ["-y", "@hubspot/mcp-server"],
+      "env": {
+        "PRIVATE_APP_ACCESS_TOKEN": "${HUBSPOT_ACCESS_TOKEN}"
+      }
+    },
+    "salesforce": {
+      "command": "npx",
+      "args": ["-y", "@tsmztech/mcp-server-salesforce"],
+      "env": {
+        "SALESFORCE_USERNAME": "${SF_USER}",
+        "SALESFORCE_PASSWORD": "${SF_PASS}",
+        "SALESFORCE_TOKEN": "${SF_TOKEN}"
+      }
+    },
+    "gong": {
+      "command": "npx",
+      "args": ["-y", "gong-mcp"],
+      "env": {
+        "GONG_ACCESS_KEY": "${GONG_KEY}",
+        "GONG_ACCESS_KEY_SECRET": "${GONG_SECRET}"
+      }
+    }
+  }
+}

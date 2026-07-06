@@ -1,0 +1,9 @@
+# OMC / Claude Code local state
+.omc/
+.claude/
+# OS
+.DS_Store
+# secrets (실제 자격증명은 절대 커밋 금지)
+.mcp.json
+.env
+*.local
