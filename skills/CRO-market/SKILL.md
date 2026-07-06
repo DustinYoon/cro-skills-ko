@@ -24,6 +24,7 @@ allowed-tools:
 "누구에게나 팔 수 있다"는 아무에게도 못 판다는 뜻이다. 이 스킬은 **타겟 정의 → 수요 창출 → 캠페인 실행**의 프론트엔드 전체와, 그 위의 **GTM 모션·세그멘테이션·프라이싱 전략**을 소유한다. 채널 도그마 없이 씨앗·그물·창을 목적에 맞게 조합하고, 모션 자체가 맞는지까지 판정한다.
 
 ## 참조 (진입 시 반드시 읽기)
+- `~/.claude/skills/CRO/references/revenue-operating-system.md` — MCP/사내정보/persistent context/trust policy/상태 프로토콜. 직접 호출돼도 이 규약을 먼저 적용.
 - `~/.claude/skills/CRO/references/frameworks-fi2i.md` — 니치 5요소·니치 매트릭스·20인 규칙·15/85, 리드 3유형(씨앗/그물/창)·아웃바운드 4조건, 딜 규모 두 배(상향)·메시지 3질문·관심 곡선.
 - `~/.claude/skills/CRO/references/frameworks-saf.md` — 수요 창출 공식·세일즈↔마케팅 SLA·리드 스코어링.
 - `~/.claude/skills/CRO/references/insights-corpus.md` — **§2 시장 진입 & 수요 창출**(AI SDR 증폭·무차별 콜드메일 사멸·존재감 전략·다이내믹 ICP·AEO·앵커 프라이싱) + **§7의 GTM 모션**(PLG 천장·파트너-led·세그멘테이션·프라이싱).
@@ -31,8 +32,10 @@ allowed-tools:
 
 ## 데이터 소스 (첫 줄 표기)
 1. **MCP(HubSpot/Salesforce)** — 리드 소스별 건수·전환율, 시퀀스 응답률, 캠페인/세그먼트별 CAC, 과거 Closed Won 계정의 기업 속성 분포, 파이프라인 생성률.
-2. **첨부** — 마케팅 대시보드·시퀀스 CSV·계정 리스트·과거 고객 목록.
-3. **자문 모드** — 현재 채널·ACV·사이클·타겟을 질문으로 파악(수치 지어내지 않음).
+2. **회사 지식 MCP/코퍼스** — ICP 문서, positioning, win/loss, pricing, board/strategy deck, campaign retros, customer stories.
+3. **persistent context** — `.cro/context.md`, `.cro/memory/decisions.md`, `.cro/memory/experiments.md`.
+4. **첨부** — 마케팅 대시보드·시퀀스 CSV·계정 리스트·과거 고객 목록.
+5. **자문 모드** — 현재 채널·ACV·사이클·타겟을 질문으로 파악(수치 지어내지 않음).
 
 ## 워크플로 — 진입 라우팅 (어느 블록인가)
 | 의도 | 블록 |

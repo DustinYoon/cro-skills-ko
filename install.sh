@@ -43,7 +43,11 @@ echo
 echo "완료: ${count}개 스킬 설치됨 -> $DEST"
 echo
 echo "다음 단계:"
-echo "  1) (선택) MCP 연결: $SRC_ROOT/.mcp.json.template 를 ~/.claude/mcp.json 또는 프로젝트 .mcp.json 에 병합"
-echo "  2) (선택) 사내 세일즈 자료 연결: export CRO_CORPUS_DIR=/path/to/notes"
-echo "  3) 대화에서 'GTM', '리드 제너레이션', '딜 블로커', '파이프라인 설계', '캠페인' 등으로 스킬 호출"
-echo "  4) 검증: python3 $SRC_ROOT/validate_skills.py"
+echo "  1) Claude Code 세션 재시작"
+echo "  2) (선택) MCP 연결: $SRC_ROOT/.mcp.json.template 를 ~/.claude/mcp.json 또는 프로젝트 .mcp.json 에 병합"
+echo "  3) (선택) 사내 세일즈 자료 연결: export CRO_CORPUS_DIR=/path/to/notes"
+echo "  4) 대화에서 '/CRO' 또는 'GTM', '리드 제너레이션', '딜 블로커', '파이프라인 설계', '캠페인' 등으로 스킬 호출"
+echo "  5) 검증: python3 $SRC_ROOT/validate_skills.py"
+echo
+echo "GitHub에서 바로 설치하려면:"
+echo "  npx skills add Diseon/cro-skills-ko --skill CRO CRO-market CRO-deal CRO-account CRO-forecast CRO-org CRO-coaching -a claude-code -g"

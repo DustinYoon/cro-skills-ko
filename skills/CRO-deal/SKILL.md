@@ -22,6 +22,7 @@ allowed-tools:
 한 개의 기회를 "느낌"이 아니라 **고객에게서 받은 증거**로 해부한다. 디스커버리는 "니즈 파악 잡담"이 아니라 **3 Whys를 고객 언어로 답하게 만드는 규율**이고, 딜 실행은 **가장 낮은 점수 요소를 고객 행동으로 바꾸는 것**이다. 이 스킬은 기회의 전 생애(자격판정→단계 게이트→언블록→협상·클로징)를 책임진다.
 
 ## 참조 (진입 시 반드시 읽기)
+- `~/.claude/skills/CRO/references/revenue-operating-system.md` — MCP/사내정보/persistent context/trust policy/상태 프로토콜. 직접 호출돼도 이 규약을 먼저 적용.
 - `~/.claude/skills/CRO/references/frameworks-meddpicc.md` — 3 Whys, MEDDPICC 8요소, 6단계 게이트, 챔피언 vs 코치, EB 6질문, POV 4조건, "시간은 모든 딜을 죽인다", 가격 기준점.
 - `~/.claude/skills/CRO/references/frameworks-saf.md` — 교육 3요소(고객 여정/세일즈 프로세스/검증 매트릭스), 호기심(질문·경청).
 - `~/.claude/skills/CRO/references/insights-corpus.md` — **§1 딜 실행 & 디스커버리**(JOLT/FOMU, 챔피언 3조건, So what?, 사전준비/웜콜, 신뢰전이, 피처함정/두발셀링, 멀티스레딩 진입, 딜 크래프팅, 할인 규율) + **§7 검증 콜**(디스커버리는 죽었다).
@@ -29,8 +30,10 @@ allowed-tools:
 
 ## 데이터 소스 (답변 첫 줄에 표기)
 1. **MCP** — HubSpot/Salesforce에서 딜(amount·stage·closedate·owner·연관 contact/activity), Gong에서 그 딜의 통화·트랜스크립트(3 Whys·MEDDPICC 자동 채점).
-2. **첨부/붙여넣기** — CRM 스크린샷, 통화 메모, 이메일 스레드.
-3. **자문 모드** — 데이터 없으면 워크플로 질문으로 뽑아낸다(수치·인용 지어내지 않음).
+2. **회사 지식 MCP/코퍼스** — 가격/할인 정책, 고객 사례, 경쟁 배틀카드, 보안/법무 FAQ, 승인 프로세스.
+3. **persistent context** — `.cro/context.md`, `.cro/memory/decisions.md`, 관련 계정 메모.
+4. **첨부/붙여넣기** — CRM 스크린샷, 통화 메모, 이메일 스레드.
+5. **자문 모드** — 데이터 없으면 워크플로 질문으로 뽑아낸다(수치·인용 지어내지 않음).
 
 ## 워크플로 — 진입 라우팅 (어느 국면인가)
 | 상태 | 블록 |

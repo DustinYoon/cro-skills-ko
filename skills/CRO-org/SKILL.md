@@ -23,6 +23,7 @@ allowed-tools:
 "이상적 채용 공식은 회사마다 다르지만, 그 공식을 설계하는 프로세스는 동일하다." 감이 아니라 **이론→평가→채점→회귀**의 반복 시스템으로 팀을 만들고, **보상·구조·AI·리더십**을 하나의 조직 설계로 다룬다. 이 스킬은 "팀을 만들고 운영한다"의 전 국면을 소유한다(일상 성과 코칭만 `CRO-coaching`으로 위임).
 
 ## 참조 (진입 시 반드시 읽기)
+- `~/.claude/skills/CRO/references/revenue-operating-system.md` — MCP/사내정보/persistent context/trust policy/상태 프로토콜. 직접 호출돼도 이 규약을 먼저 적용.
 - `~/.claude/skills/CRO/references/frameworks-saf.md` — 채용 공식·설계 4단계·HubSpot 5특성·코칭가능성 3단계, 교육 3요소.
 - `~/.claude/skills/CRO/references/frameworks-meddpicc.md` — 채용 인성 5(지능/PHD/코칭가능성/성실성/호기심).
 - `~/.claude/skills/CRO/references/frameworks-fi2i.md` — 세일즈 확장=역할 전문화 4역할, 규모 예외·스컹크웍스.
@@ -31,8 +32,10 @@ allowed-tools:
 
 ## 데이터 소스 (답변 첫 줄에 표기)
 1. **MCP** — HubSpot/Salesforce에서 기존 팀 쿼터 달성률·전환율·램프 곡선(인재상 회귀·캐파시티 원재료), 담당자 수·역할 구성.
-2. **첨부/붙여넣기** — 기존 스코어카드·JD·이력서, 보상 플랜, 조직도, 헤드카운트 계획.
-3. **자문 모드** — 데이터 없으면 워크플로 질문으로 인재상·보상·구조 이론을 함께 구축(수치 지어내지 않음).
+2. **회사 지식 MCP/코퍼스** — org chart, comp plan, quota policy, JD/scorecard, onboarding, leadership memo, board plan.
+3. **persistent context** — `.cro/context.md`, `.cro/memory/decisions.md`, 과거 채용/보상/조직 결정.
+4. **첨부/붙여넣기** — 기존 스코어카드·JD·이력서, 보상 플랜, 조직도, 헤드카운트 계획.
+5. **자문 모드** — 데이터 없으면 워크플로 질문으로 인재상·보상·구조 이론을 함께 구축(수치 지어내지 않음).
 
 ## 워크플로 — 진입 라우팅 (어느 하위 국면인가)
 사용자 의도를 아래 6블록 중 하나(또는 조합)로 매핑한다. 단일 질문이면 해당 블록만 실행.

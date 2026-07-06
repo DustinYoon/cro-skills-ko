@@ -1,6 +1,7 @@
 {
   "//": "CRO GTM 스킬용 MCP 서버 설정 템플릿. ~/.claude/mcp.json 또는 프로젝트 루트 .mcp.json 에 병합하세요.",
   "//auth": "자격 증명은 환경변수로 주입하고, 이 파일에 실제 토큰을 커밋하지 마세요.",
+  "//knowledge": "Notion/Google Drive/Confluence/SharePoint/Slack/Jira/Linear 등 사내 지식 MCP는 조직에서 쓰는 서버로 교체하세요. 읽기 권한부터 시작하세요.",
   "mcpServers": {
     "hubspot": {
       "command": "npx",
@@ -24,6 +25,13 @@
       "env": {
         "GONG_ACCESS_KEY": "${GONG_KEY}",
         "GONG_ACCESS_KEY_SECRET": "${GONG_SECRET}"
+      }
+    },
+    "company-knowledge": {
+      "command": "npx",
+      "args": ["-y", "<your-company-knowledge-mcp-server>"],
+      "env": {
+        "KNOWLEDGE_MCP_TOKEN": "${KNOWLEDGE_MCP_TOKEN}"
       }
     }
   }

@@ -22,6 +22,7 @@ allowed-tools:
 세일즈는 성사에서 끝나지 않는다. **퍼널(삼각형)이 아니라 매출 모래시계** — 성사 후 유지·업셀·추천이 진짜 매출을 만든다. "고객 성공은 고객 만족이 아니라 **매출 성장**을 만드는 것." 이 스킬은 랜드된 계정을 **멀티스레딩으로 넓히고, 리텐션으로 지키고, 확장으로 키운다.**
 
 ## 참조 (진입 시 반드시 읽기)
+- `~/.claude/skills/CRO/references/revenue-operating-system.md` — MCP/사내정보/persistent context/trust policy/상태 프로토콜. 직접 호출돼도 이 규약을 먼저 적용.
 - `~/.claude/skills/CRO/references/frameworks-fi2i.md` — 씨앗=고객성공(매출 모래시계·이탈 목표 로고15%↓/매출0%↓·90일 온보딩·QBR·위험 조기감지), 딜 규모 두 배(상향·가치기반 가격·계약연장), **LTV 2차 효과**(챔피언 이직 재구매~10%·추천 유입~30%→CLTV 2배), "고객성공이 영업보다 5배 중요."
 - `~/.claude/skills/CRO/references/frameworks-meddpicc.md` — 챔피언 vs 코치·EB, 파워베이스(멀티스레딩의 기반), 단계 게이트.
 - `~/.claude/skills/CRO/references/insights-corpus.md` — **§3 어카운트 성장 & 리텐션**(M-and-W 멀티스레딩·high and wide·LIR·ICP by LTV·예산 비대칭·이중 보상·오버라이선싱).
@@ -29,8 +30,10 @@ allowed-tools:
 
 ## 데이터 소스 (답변 첫 줄에 표기)
 1. **MCP** — HubSpot/Salesforce에서 계정별 사용·제품 채택·갱신일·확장 파이프라인·연관 contact(멀티스레드 커버리지), 코호트 리텐션/NDR. Gong으로 어카운트 통화.
-2. **첨부/붙여넣기** — 계정 플랜·QBR 자료·사용량 export·갱신 리스트.
-3. **자문 모드** — 데이터 없으면 워크플로 질문으로 계정 구조·페인·확장 기회를 파악(수치 지어내지 않음).
+2. **회사 지식 MCP/코퍼스** — QBR, 갱신 정책, 고객 사례, 성공계획, 가격/패키징 정책, 레퍼런스 가능 고객.
+3. **persistent context** — `.cro/context.md`, `.cro/memory/accounts.md`, `.cro/memory/decisions.md`.
+4. **첨부/붙여넣기** — 계정 플랜·QBR 자료·사용량 export·갱신 리스트.
+5. **자문 모드** — 데이터 없으면 워크플로 질문으로 계정 구조·페인·확장 기회를 파악(수치 지어내지 않음).
 
 ## 워크플로 — 진입 라우팅 (어느 블록인가)
 | 의도 | 블록 |

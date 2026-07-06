@@ -22,6 +22,7 @@ allowed-tools:
 이번 분기 숫자를 "영업사원 느낌"이 아니라 **딜별 MEDDPICC 신뢰도 + 커버리지 수학**으로 만든다. 파이프라인은 "느낌"이 아니라 **수학**이다: 목표 대비 얼마가 필요하고, 지금 얼마가 있고, 언제·어디를 채워야 하는지 계산한다. 컨슘션 매출은 시트와 다른 방식으로 예측한다.
 
 ## 참조 (진입 시 반드시 읽기)
+- `~/.claude/skills/CRO/references/revenue-operating-system.md` — MCP/사내정보/persistent context/trust policy/상태 프로토콜. 직접 호출돼도 이 규약을 먼저 적용.
 - `~/.claude/skills/CRO/references/frameworks-meddpicc.md` — 포캐스팅 룰(미검증 배제·갭×4·챔피언 동반 미팅·갭 메우기), 갭×4 파이프라인 룰, 6단계 게이트, "시간은 모든 딜을 죽인다".
 - `~/.claude/skills/CRO/references/frameworks-fi2i.md` — 파이프라인 생성률(선행 지표), 역할 전문화, 리드 3유형.
 - `~/.claude/skills/CRO/references/frameworks-saf.md` — 스테이지별 전환 진단.
@@ -31,8 +32,10 @@ allowed-tools:
 ## 데이터 소스 (답변 첫 줄에 표기)
 1. **MCP** — Salesforce Opportunity(StageName/Amount/CloseDate/Probability/ForecastCategory)로 오픈 딜 전체, OpportunityHistory로 체류일·정체 감지; HubSpot deals 동일. 과거 승률·평균 딜·사이클, 담당자 수·램프.
    - Salesforce 오픈: `SELECT Amount,StageName,CloseDate,OwnerId FROM Opportunity WHERE IsClosed=false`
-2. **첨부/입력** — 쿼터, 파이프라인 export(CSV/스크린샷), 램프 가정, 컨슘션 사용 이력.
-3. **자문 모드** — 필요한 입력(쿼터·승률·ACV·사이클·담당자·램프)을 질문으로 수집(수치 지어내지 않음).
+2. **회사 지식 MCP/코퍼스** — FY plan, 쿼터/보드 목표, forecast policy, stage definition, comp/commit 규칙.
+3. **persistent context** — `.cro/context.md`, `.cro/memory/decisions.md`, 과거 forecast 결정/가정.
+4. **첨부/입력** — 쿼터, 파이프라인 export(CSV/스크린샷), 램프 가정, 컨슘션 사용 이력.
+5. **자문 모드** — 필요한 입력(쿼터·승률·ACV·사이클·담당자·램프)을 질문으로 수집(수치 지어내지 않음).
 
 ## 핵심 공식
 - **필요 파이프라인 = 목표 매출 ÷ 종합 승률.**

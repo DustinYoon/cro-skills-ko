@@ -26,26 +26,31 @@ allowed-tools:
 
 ## 0. 이 스위트의 세 가지 원칙 (매번 적용)
 
-1. **지식은 내장, 데이터는 주입.** 세일즈 지식은 `references/frameworks-*.md`에 들어 있어 외부 자료 없이도 자문할 수 있다.
+1. **운영체계 먼저.** `references/revenue-operating-system.md`를 따라 의도 분류, 데이터 맵, 회사 맥락, 내부 정보, 증거/추론 분리를 먼저 처리한다.
+2. **지식은 내장, 데이터는 주입.** 세일즈 지식은 `references/frameworks-*.md`에 들어 있어 외부 자료 없이도 자문할 수 있다.
    "우리 회사 데이터"는 런타임에 주입한다. 진입 시 `references/data-sources.md`의 우선순위로 소스를 해석한다:
-   **MCP(HubSpot/Gong/Salesforce) → `CRO_CORPUS_DIR`/사용자 지정 경로 → 첨부/붙여넣기 → 자문 모드.**
-2. **소스를 먼저 밝힌다.** 답변 첫 줄에 `데이터 소스: [MCP:…] / [코퍼스:…] / [첨부] / [자문 모드]` 표기.
+   **Revenue MCP → Company Knowledge MCP → persistent context → `CRO_CORPUS_DIR`/사용자 지정 경로 → 첨부/붙여넣기 → 자문 모드.**
+3. **소스를 먼저 밝힌다.** 답변 첫 줄에 `데이터 소스: [MCP:…] / [회사문서:…] / [컨텍스트:…] / [코퍼스:…] / [첨부] / [자문 모드]` 표기.
    데이터가 없으면 수치를 지어내지 말고 질문으로 채우거나 자문 모드로 진행한다.
-3. **맥락 먼저, 상충은 드러낸다.** 세일즈 지식은 쌓이고 상충하며 맥락 의존적이다. 조언 전에 `references/context-profile.md`로 이 회사의 맥락(GTM 모션·ACV·사이클·구매주체·단계 등)을 확정·저장하고(한 번 파악하면 재사용), 그 프로파일로 기본 스탠스를 분기한다. 소스가 갈리면 `references/conflict-resolution.md` §3으로 뭉개지 말고 "A는 X 조건일 때, B는 Y 조건일 때, 당신 상황→Z 권장"으로 드러낸다. 구루 복창 금지 — 최종 심판은 사용자 데이터 + 제1원리.
+4. **맥락 먼저, 상충은 드러낸다.** 세일즈 지식은 쌓이고 상충하며 맥락 의존적이다. 조언 전에 `references/context-profile.md`로 이 회사의 맥락(GTM 모션·ACV·사이클·구매주체·단계 등)을 확정·저장하고(한 번 파악하면 재사용), 그 프로파일로 기본 스탠스를 분기한다. 소스가 갈리면 `references/conflict-resolution.md` §3으로 뭉개지 말고 "A는 X 조건일 때, B는 Y 조건일 때, 당신 상황→Z 권장"으로 드러낸다. 구루 복창 금지 — 최종 심판은 사용자 데이터 + 제1원리.
 
 > **공유 레퍼런스 경로 해석:** `~/.claude/skills/CRO/references/`(홈) → `<프로젝트>/.claude/skills/CRO/references/` → 이 스킬 폴더의 형제 `references/`(스위트를 옮기거나 앱에 동봉한 경우). 못 찾으면 자문 모드로 진행하고 그 사실을 밝힌다. 제품별(Claude Code/앱/Codex) 동작·지속·패키징은 `references/portability.md`.
 
 ## 1. 진입 절차
 
-1. **소스 점검** — MCP 연결 여부(`references/mcp-data-access.md`) + `CRO_CORPUS_DIR` 여부 확인.
+1. **운영체계 로드** — `references/revenue-operating-system.md`를 읽고 이 세션의 상태 프로토콜과 trust policy를 적용한다.
+2. **소스 점검** — Revenue MCP/Company Knowledge MCP 연결 여부(`references/mcp-data-access.md`) + persistent context + `CRO_CORPUS_DIR` 여부 확인.
    ```bash
+   CTX="${CRO_CONTEXT_FILE:-./.cro/context.md}"
+   [ -f "$CTX" ] && echo "CRO_CONTEXT: $CTX" || echo "CRO_CONTEXT: (none)"
    [ -n "$CRO_CORPUS_DIR" ] && [ -d "$CRO_CORPUS_DIR" ] && echo "CORPUS: $CRO_CORPUS_DIR" || echo "CORPUS: (none)"
    ```
-2. **맥락 프로파일 로드/확정** — `references/context-profile.md`를 따른다. **먼저 상위 맥락 흡수**(`~/.claude/CLAUDE.md`·프로젝트 `CLAUDE.md`·`AGENTS.md`·대화 히스토리에 이미 있는 회사 맥락은 **재질문 금지**). 그다음 저장된 카드(`$CRO_CONTEXT_FILE` → `./.cro/context.md`) 있으면 재사용. 없으면 MCP·코퍼스·첨부에서 추론 → 남은 핵심 5축(GTM 모션·ACV대·사이클·구매주체·단계)만 3~5개로 묶어 질문 → 카드로 저장(FS 없으면 대화 내 명시). 못 채운 축은 가정 명시 후 진행.
-3. **의도 분류** — 사용자 질문을 아래 라우팅 표에 매핑. 여러 개면 순서를 정해 조합.
-4. **라우팅** — 해당 `CRO-<name>` 스킬을 Skill 툴로 호출하거나, 단순하면 이 오케스트레이터가 직접 처리.
-5. **상충 발견 시** — `conflict-resolution.md` §3 프로토콜: 뭉개지 말고 조건별로 갈라 답하고 사용자 데이터/실험으로 심판.
-6. **애매하면 1개 질문** — 목표/제약이 불명확할 때만 `AskUserQuestion`으로 좁힌다(과도한 질문 금지).
+3. **맥락 프로파일 로드/확정** — `references/context-profile.md`를 따른다. **먼저 상위 맥락 흡수**(`~/.claude/CLAUDE.md`·프로젝트 `CLAUDE.md`·`AGENTS.md`·대화 히스토리에 이미 있는 회사 맥락은 **재질문 금지**). 그다음 저장된 카드(`$CRO_CONTEXT_FILE` → `./.cro/context.md`) 있으면 재사용. 없으면 MCP·코퍼스·첨부에서 추론 → 남은 핵심 5축(GTM 모션·ACV대·사이클·구매주체·단계)만 3~5개로 묶어 질문 → 카드로 저장(FS 없으면 대화 내 명시). 못 채운 축은 가정 명시 후 진행.
+4. **사내 정보 검색** — Company Knowledge MCP나 `CRO_CORPUS_DIR`가 있으면 현재 질문과 관련된 정책/플레이북/최근 결정사항을 검색한다. 예: 가격/할인 질문이면 pricing policy와 discount approval, 조직 질문이면 comp plan과 org chart.
+5. **의도 분류** — 사용자 질문을 아래 라우팅 표에 매핑. 여러 개면 순서를 정해 조합.
+6. **라우팅** — 해당 `CRO-<name>` 스킬을 Skill 툴로 호출하거나, 단순하면 이 오케스트레이터가 직접 처리.
+7. **상충 발견 시** — `conflict-resolution.md` §3 프로토콜: 뭉개지 말고 조건별로 갈라 답하고 사용자 데이터/실험으로 심판.
+8. **애매하면 1개 질문** — 목표/제약이 불명확할 때만 `AskUserQuestion`으로 좁힌다(과도한 질문 금지).
 
 ## 2. 라우팅 표 (의도 → 스킬)
 
@@ -78,6 +83,7 @@ allowed-tools:
 - `references/frameworks-saf.md` — 채용·교육·관리·수요창출 4공식 (Roberge)
 - `references/data-sources.md` — 데이터 소스 해석 규약(이식성)
 - `references/mcp-data-access.md` — HubSpot/Gong/Salesforce MCP 접근
+- `references/revenue-operating-system.md` — gstack식 실행 전 컨텍스트, 내부정보 검색, trust policy, persistent memory, 상태 프로토콜
 - `references/conflict-resolution.md` — 상충 해소·맥락 적합·지식 누적 규약
 - `references/insights-corpus.md` — 인터뷰 코퍼스 증류 인사이트(출처 표기, 상황적 갱신)
 - `references/context-profile.md` — 회사 맥락 인테이크·지속(.cro/context.md)·분기 규약

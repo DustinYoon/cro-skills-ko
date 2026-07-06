@@ -21,6 +21,7 @@ allowed-tools:
 담당자의 "느낌"이나 활동량이 아니라 **퍼널 단계별 전환율**로 약점을 특정하고, 개선 시 성과를 가장 크게 올릴 단 하나의 기술에 집중한 코칭 계획을 만든다. 목표: 매니저가 심문(Inspect)이 아니라 **Inspire→Coach→Inspect** 순서로 팀을 성장시키는 것. (팀을 *만드는* 채용·보상·구조는 `CRO-org`, 이 스킬은 팀을 *운영*한다.)
 
 ## 참조 (진입 시 반드시 읽기)
+- `~/.claude/skills/CRO/references/revenue-operating-system.md` — MCP/사내정보/persistent context/trust policy/상태 프로토콜. 직접 호출돼도 이 규약을 먼저 적용.
 - `~/.claude/skills/CRO/references/frameworks-saf.md` — 세일즈 관리 공식(지표 중심 코칭, 피드백 폭격 함정, 단계별 전환율 진단, 콘테스트·보상).
 - `~/.claude/skills/CRO/references/frameworks-meddpicc.md` — 매니저 3단계 무한 루프(Inspire→Coach&Develop→Inspect), 매니저 안티패턴 4가지, 챔피언 동반 미팅.
 - `~/.claude/skills/CRO/references/insights-corpus.md` — **§6 성과 운영 & 코칭**(60/100 문화·할인이 긴박감 죽임·실시간 콜 코칭·사전준비=속도·신뢰 전이) + **§1의 사전준비/신뢰 전이**.
@@ -28,8 +29,10 @@ allowed-tools:
 
 ## 데이터 소스 (답변 첫 줄에 표기)
 1. **MCP** — HubSpot/Salesforce에서 담당자별 스테이지 전환율(리드→미팅→기회→클로징), Gong에서 담당자 통화로 발굴·디스커버리·협상 스킬 진단.
-2. **첨부/붙여넣기** — 담당자 지표 CSV, CRM 대시보드.
-3. **자문 모드** — 데이터 없으면 워크플로 질문으로 지표를 뽑아낸다(수치 지어내지 않음).
+2. **회사 지식 MCP/코퍼스** — 세일즈 프로세스, 콜 스코어카드, enablement 자료, 1:1/QBR 템플릿, 매니저 원칙.
+3. **persistent context** — `.cro/context.md`, `.cro/memory/decisions.md`.
+4. **첨부/붙여넣기** — 담당자 지표 CSV, CRM 대시보드.
+5. **자문 모드** — 데이터 없으면 워크플로 질문으로 지표를 뽑아낸다(수치 지어내지 않음).
 
 ## 워크플로
 
