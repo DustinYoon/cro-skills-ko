@@ -57,13 +57,28 @@ npx skills add Diseon/cro-skills-ko --list
 
 ```bash
 npx skills add Diseon/cro-skills-ko --skill CRO CRO-market CRO-deal CRO-account CRO-forecast CRO-org CRO-coaching -a claude-code -g
-bash install.sh                          # ~/.claude/skills 에 설치 (Claude Code 개인 스킬)
+bash install.sh                          # ~/.claude/skills 에 설치 + SessionStart 훅 자동 병합
 bash install.sh <repo>/.claude/skills    # 프로젝트에 설치(팀 공유, 커밋)
+CRO_INSTALL_HOOK=0 bash install.sh       # 훅 없이 스킬만 설치
 python3 validate_skills.py               # 구조 검증 (설치본: python3 validate_skills.py ~/.claude/skills)
 python3 tests/check_outputs.py           # 드라이런 산출물 스모크 테스트
+python3 tests/check_hook.py              # SessionStart 부트스트랩 훅 스모크 테스트
 ```
 
 `npx skills`가 1차 권장 설치 방법이다. `install.sh`는 로컬 클론에서 직접 복사해야 할 때만 사용한다.
+
+### 자동 발화 (SessionStart 훅)
+
+스킬은 트리거 키워드가 걸릴 때만 발화한다. 사용자가 `/CRO`를 기억하지 않아도 세일즈·GTM 신호에
+**자동으로** 발화하도록, `hooks/`의 SessionStart 부트스트랩을 `~/.claude/settings.json`에 등록할 수 있다.
+매 세션 시작·`/clear`·컨텍스트 압축 때 라우팅 규칙(1% 규칙)과 불변 규율(데이터 소스 표기·수치 날조 금지·
+진단 우선)이 주입된다. `obra/superpowers`의 `using-superpowers` 부트스트랩과 같은 방식이다.
+
+> **전제:** 자동 발화 훅은 **로컬 클론에서 `bash install.sh`를 돌릴 때만** 설치된다(훅을 `~/.claude/cro-hooks/`로
+> 복사 후 settings.json 병합). 위의 권장 설치인 `npx skills add …`는 `skills/`만 복사하고 `hooks/`는 가져오지
+> 않으므로, npx로 설치했다면 `hooks/README.md`의 수동 설치(방법 2)로 훅을 따로 등록해야 한다.
+
+자세히·수동 설치·이식성: `hooks/README.md`.
 
 ## 사용 예
 
@@ -143,7 +158,15 @@ export CRO_CORPUS_DIR="/path/to/our-sales-notes"   # 읽기 전용 참고
 ## 확장
 
 새 GTM 기능을 추가하려면 `skills/CRO-<name>/SKILL.md`를 기존 스킬(예: `CRO-deal`) 구조로 만들고,
-`CRO/SKILL.md` 라우팅 표에 한 줄 더한 뒤 `validate_skills.py`로 검증한다.
+`CRO/SKILL.md` 라우팅 표에 한 줄 더한 뒤 `validate_skills.py`로 검증한다. 기능 스킬은 필수 섹션
+(`철칙`·`참조`·`데이터 소스`·`워크플로`·`출력 형식`·`안티패턴`·`합리화 차단`·`핸드오프`)을 갖춰야 한다.
+
+- **`description`은 트리거 전용**으로 쓴다("이럴 때 쓴다" + `Triggers:`). 워크플로 요약을 넣으면 에이전트가
+  본문을 안 읽고 설명만 따르는 함정이 있다(superpowers 실측). 무엇을 하는지는 본문 첫 문단이 담당한다.
+- **`철칙`(Iron Law)**은 압박 하에서도 지키는 불변 규율 한 줄, **`합리화 차단`**은 에이전트가 실제로 쓸
+  변명→현실 2열 표다. 규율이 시간·권위·매몰비용 압박에 무너지지 않게 한다.
+- 새 규율을 넣기 전에 `tests/eval-scenarios/`의 압박 시나리오로 **스킬 없이 실패(RED)를 먼저 재현**하고
+  스킬로 준수(GREEN)를 확인한다(방법론: `tests/eval-scenarios/README.md`).
 
 ## 라이선스
 

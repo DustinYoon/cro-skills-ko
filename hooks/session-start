@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# CRO Skills — SessionStart 부트스트랩.
+#
+# 세션 시작(startup)·초기화(clear)·컨텍스트 압축(compact) 때 hooks/BOOTSTRAP.md 를 읽어
+# 에이전트 컨텍스트에 주입한다. 이렇게 하면 CRO 스킬이 "사용자가 /CRO 를 기억해서 칠 때"가 아니라
+# 세일즈·GTM 신호가 보이는 순간 자동으로 발화한다(superpowers 의 using-superpowers 부트스트랩과 같은 방식).
+#
+# 출력은 Claude Code 의 SessionStart 훅 스키마를 따른다:
+#   {"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"<문자열>"}}
+#
+# stdin 의 훅 페이로드는 읽지 않아도 되지만, 파이프가 닫힐 때 SIGPIPE 로 죽지 않도록 비운다.
+set -euo pipefail
+
+# 훅 입력(JSON)을 조용히 소비한다. 없으면 그냥 넘어간다.
+cat >/dev/null 2>&1 || true
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BOOTSTRAP="$DIR/BOOTSTRAP.md"
+
+# 부트스트랩 파일이 없으면 조용히 no-op(빈 출력) — 세션을 막지 않는다.
+[ -f "$BOOTSTRAP" ] || exit 0
+
+# python3 로 파일을 JSON 문자열로 안전하게 이스케이프하고 전체 훅 응답을 만든다.
+# (repo 가 이미 validate_skills.py 로 python3 에 의존하므로 새 의존성 아님.)
+if command -v python3 >/dev/null 2>&1; then
+  python3 - "$BOOTSTRAP" <<'PY'
+import json, sys
+text = open(sys.argv[1], encoding="utf-8").read()
+print(json.dumps({
+    "hookSpecificOutput": {
+        "hookEventName": "SessionStart",
+        "additionalContext": text,
+    }
+}, ensure_ascii=False))
+PY
+else
+  # python3 가 없으면 조용히 no-op — 훅 실패로 세션을 막지 않는다.
+  exit 0
+fi

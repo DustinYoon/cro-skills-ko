@@ -20,7 +20,9 @@ SKILLS_DIR = _nested if os.path.isdir(os.path.join(_nested, "CRO")) else ROOT
 REF_DIR = os.path.join(SKILLS_DIR, "CRO", "references")
 
 # 기능 스킬 본문 필수 섹션 (오케스트레이터 CRO 는 예외)
-REQUIRED_SECTIONS = ["참조", "데이터 소스", "워크플로", "출력 형식", "안티패턴", "핸드오프"]
+# '철칙' = Iron Law 한 줄(압박 하에서도 지키는 불변 규율), '합리화 차단' = 변명→현실 표.
+REQUIRED_SECTIONS = ["철칙", "참조", "데이터 소스", "워크플로", "출력 형식",
+                     "안티패턴", "합리화 차단", "핸드오프"]
 REF_LINK_RE = re.compile(r"~/\.claude/skills/CRO/references/([A-Za-z0-9._-]+\.md)")
 
 def parse_frontmatter(text: str):

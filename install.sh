@@ -42,6 +42,101 @@ done
 echo
 echo "완료: ${count}개 스킬 설치됨 -> $DEST"
 echo
+
+# ── SessionStart 훅 설치 (선택, 기본 on) ──────────────────────────────────────
+# CRO 스킬이 세일즈·GTM 신호에 자동 발화하도록 ~/.claude/settings.json 에 훅을 멱등적으로 병합.
+# 훅 스크립트는 클론 위치에 의존하지 않게 ~/.claude/cro-hooks/ 로 복사한다(클론을 옮기거나 지워도 동작).
+# 끄려면: CRO_INSTALL_HOOK=0 bash install.sh
+if [ "${CRO_INSTALL_HOOK:-1}" = "1" ] && [ -f "$SRC_ROOT/hooks/session-start" ]; then
+  if command -v python3 >/dev/null 2>&1; then
+    # 1) 훅을 사용자 홈의 안정 경로로 복사(BOOTSTRAP.md 포함) — self-contained.
+    HOOK_DIR="$HOME/.claude/cro-hooks"
+    mkdir -p "$HOME/.claude"
+    if command -v rsync >/dev/null 2>&1; then
+      rsync -a "$SRC_ROOT/hooks/" "$HOOK_DIR/"
+    else
+      mkdir -p "$HOOK_DIR" && cp -R "$SRC_ROOT/hooks/." "$HOOK_DIR/"
+    fi
+    chmod +x "$HOOK_DIR/session-start" 2>/dev/null || true
+    SETTINGS="$HOME/.claude/settings.json"
+    HOOK_CMD="$HOOK_DIR/session-start"
+    # 2) settings.json 에 멱등적으로 병합 (손상 파일은 백업 후 중단, 성공 경로는 백업+원자적 치환).
+    set +e
+    RESULT="$(python3 - "$SETTINGS" "$HOOK_CMD" "$STAMP" <<'PY'
+import json, os, sys
+settings_path, hook_cmd, stamp = sys.argv[1], sys.argv[2], sys.argv[3]
+os.makedirs(os.path.dirname(settings_path) or ".", exist_ok=True)
+
+raw = None
+if os.path.exists(settings_path):
+    with open(settings_path, encoding="utf-8") as f:
+        raw = f.read()
+    try:
+        data = json.loads(raw) if raw.strip() else {}
+    except json.JSONDecodeError:
+        # 손상된 기존 설정을 절대 덮어쓰지 않는다 — 백업하고 중단.
+        with open(f"{settings_path}.corrupt.bak.{stamp}", "w", encoding="utf-8") as f:
+            f.write(raw)
+        print("ERROR_CORRUPT", end="")
+        sys.exit(3)
+else:
+    data = {}
+
+if not isinstance(data, dict):
+    print("ERROR_SHAPE", end="")
+    sys.exit(3)
+
+hooks = data.setdefault("hooks", {})
+if not isinstance(hooks, dict):
+    print("ERROR_SHAPE", end="")
+    sys.exit(3)
+starts = hooks.setdefault("SessionStart", [])
+if not isinstance(starts, list):
+    print("ERROR_SHAPE", end="")
+    sys.exit(3)
+
+def has_cmd(entries):
+    for e in entries:
+        for h in (e.get("hooks", []) if isinstance(e, dict) else []):
+            if isinstance(h, dict) and h.get("command") == hook_cmd:
+                return True
+    return False
+
+if has_cmd(starts):
+    print("SKIP", end="")
+    sys.exit(0)
+
+starts.append({
+    "matcher": "startup|clear|compact",
+    "hooks": [{"type": "command", "command": hook_cmd}],
+})
+
+# 성공 경로: 기존 파일 백업 → 임시파일에 쓰고 원자적 치환(중단돼도 원본 보존).
+if raw is not None:
+    with open(f"{settings_path}.bak.{stamp}", "w", encoding="utf-8") as f:
+        f.write(raw)
+tmp = f"{settings_path}.tmp.{stamp}"
+with open(tmp, "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+    f.write("\n")
+os.replace(tmp, settings_path)
+print("ADDED", end="")
+PY
+)"
+    RC=$?
+    set -e
+    case "$RESULT" in
+      ADDED) echo "  훅: SessionStart 부트스트랩을 $SETTINGS 에 추가 (스크립트: $HOOK_CMD)";;
+      SKIP)  echo "  훅: SessionStart 부트스트랩 이미 설치됨 — 건너뜀 ($HOOK_CMD)";;
+      ERROR_CORRUPT) echo "  훅: 기존 settings.json 손상 → $SETTINGS.corrupt.bak.$STAMP 로 백업하고 병합 중단. hooks/README.md 수동 설치 참고" >&2;;
+      *) echo "  훅: settings.json 병합 실패(rc=$RC) — hooks/README.md 의 수동 설치 참고" >&2;;
+    esac
+  else
+    echo "  훅: python3 없음 — hooks/README.md 의 수동 설치 참고" >&2
+  fi
+  echo
+fi
+
 echo "다음 단계:"
 echo "  1) Claude Code 세션 재시작"
 echo "  2) (선택) MCP 연결: $SRC_ROOT/.mcp.json.template 를 ~/.claude/mcp.json 또는 프로젝트 .mcp.json 에 병합"

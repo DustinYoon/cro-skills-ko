@@ -1,11 +1,9 @@
 ---
 name: CRO
 description: |
-  GTM·세일즈 전략 오케스트레이터. 리드 제너레이션, 파이프라인 설계, 딜 블로커 제거,
-  포캐스팅, 디스커버리/자격심사(MEDDPICC), ICP/니치 정의, 유저 획득 캠페인, 세일즈 채용·코칭 등
-  Go-To-Market 질문을 받아 알맞은 CRO-* 하위 스킬로 라우팅하거나 여러 개를 조합한다.
-  HubSpot·Gong·Salesforce가 MCP로 연결돼 있으면 실시간 데이터를 읽고, 없으면 자문 모드로 동작한다.
-  내장된 세일즈 프레임워크(MEDDPICC, Sales Acceleration Formula, From Impossible to Inevitable)로 추론한다.
+  세일즈·GTM·매출 관련 질문이 보이면 가장 먼저 쓴다 — 문제를 분해해 알맞은 CRO-* 하위 스킬로 라우팅하거나
+  여러 개를 조합한다. "어느 세일즈 스킬을 써야 할지 모를 때"의 기본 진입점. (라우팅·프레임워크·데이터
+  소스 규약은 본문 참조.)
   Triggers: 'GTM', 'go-to-market', 'CRO', '세일즈 전략', '영업 전략', 'sales strategy', '파이프라인',
   '리드 제너레이션', 'lead gen', '딜 블로커', 'deal blocker', '포캐스트', 'forecast', 'ICP', '캠페인',
   '어떤 CRO 스킬', 'which sales skill', '세일즈 도와줘', 'help with sales/revenue'.
