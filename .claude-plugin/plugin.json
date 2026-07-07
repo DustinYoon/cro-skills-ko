@@ -1,0 +1,20 @@
+{
+  "name": "cro-skills-ko",
+  "version": "1.0.0",
+  "description": "GTM·세일즈 전략 AI 스킬 스위트 (한국어) — 리드젠·딜 언블록·파이프라인 설계·예측·조직·코칭을 /CRO-* 스킬과 /cro-* 슬래시 커맨드로. Revenue/Company MCP 연결 시 실데이터 진단, 없으면 내장 프레임워크로 자문.",
+  "author": {
+    "name": "Diseon"
+  },
+  "repository": "https://github.com/Diseon/cro-skills-ko",
+  "license": "MIT",
+  "keywords": [
+    "cro",
+    "gtm",
+    "sales",
+    "revenue",
+    "meddpicc",
+    "forecast",
+    "korean"
+  ],
+  "skills": "./skills/"
+}

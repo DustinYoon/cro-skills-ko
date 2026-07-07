@@ -1,0 +1,38 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cro-skills-ko",
+  "description": "CRO GTM·세일즈 전략 AI 스킬 스위트 (한국어)",
+  "owner": {
+    "name": "Diseon"
+  },
+  "plugins": [
+    {
+      "name": "cro-skills-ko",
+      "description": "GTM·세일즈 전략 AI 스킬 스위트 (한국어) — 오케스트레이터 CRO + 기능 스킬 6개(market·deal·account·forecast·org·coaching), /cro-* 슬래시 커맨드, SessionStart 자동발화 훅.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Diseon"
+      },
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/Diseon/cro-skills-ko",
+      "repository": "https://github.com/Diseon/cro-skills-ko",
+      "license": "MIT",
+      "keywords": [
+        "cro",
+        "gtm",
+        "sales",
+        "revenue",
+        "meddpicc",
+        "forecast"
+      ],
+      "tags": [
+        "gtm",
+        "sales",
+        "revenue-operations",
+        "korean"
+      ]
+    }
+  ],
+  "version": "1.0.0"
+}
