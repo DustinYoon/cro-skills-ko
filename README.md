@@ -1,6 +1,7 @@
-# CRO Skills KO — GTM·세일즈 전략 AI 스킬 스위트
+# CRO Skills KO - GTM·세일즈 전략 AI 스킬 스위트
 
-리드젠, 딜 언블록, 파이프라인 설계, 유저 획득까지 GTM의 각 국면을 `/CRO-*` 스킬로 쪼갠 Claude Code 스킬 모음입니다. HubSpot·Gong·Salesforce 같은 Revenue MCP나 Notion·Drive·Confluence·Slack 같은 Company Knowledge MCP를 붙이면 실제 데이터로 진단하고, 연결이 없으면 내장 프레임워크로 자문합니다. 한국어판입니다(영문판은 별도 저장소로 분리).
+리드젠, 딜 언블록, 파이프라인 설계, 유저 획득까지 GTM의 각 국면을 `/CRO-*` 스킬로 쪼갠 Claude Code 스킬 모음입니다. HubSpot·Gong·Salesforce 같은 Revenue MCP나 Notion·Drive·Confluence·Slack 같은 Company Knowledge MCP를 붙이면 실제 데이터로 진단하고, 연결이 없으면 내장 프레임워크로 자문합니다. 한국어판입니다(영문판은 별도 저장소로 분리할 예정).
+CRO skills의 원천이 된 CRO들의 인터뷰는 https://www.linkedin.com/newsletters/cro-%EC%8A%A4%ED%84%B0%EB%94%94-7395346980689895424/ 에서 확인하실 수 있습니다. 
 
 ## 스킬 구성
 
