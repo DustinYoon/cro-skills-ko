@@ -89,9 +89,7 @@ Claude Code CLI 사용자는 **플러그인 설치**가 1차 권장이다(스킬
 매 세션 시작·`/clear`·컨텍스트 압축 때 라우팅 규칙(1% 규칙)과 불변 규율(데이터 소스 표기·수치 날조 금지·
 진단 우선)이 주입된다. `obra/superpowers`의 `using-superpowers` 부트스트랩과 같은 방식이다.
 
-> **전제:** 자동 발화 훅은 **로컬 클론에서 `bash install.sh`를 돌릴 때만** 설치된다(훅을 `~/.claude/cro-hooks/`로
-> 복사 후 settings.json 병합). 위의 권장 설치인 `npx skills add …`는 `skills/`만 복사하고 `hooks/`는 가져오지
-> 않으므로, npx로 설치했다면 `hooks/README.md`의 수동 설치(방법 2)로 훅을 따로 등록해야 한다.
+> **전제:** 자동 발화 훅은 **플러그인 설치**면 자동 등록된다(플러그인 로더가 `hooks/hooks.json`을 읽음, settings.json 수정 없음). **`bash install.sh`**로 설치하면 훅을 `~/.claude/cro-hooks/`로 복사하고 settings.json에 병합한다. `npx skills add …`는 `skills/`만 복사하므로, npx로만 설치했다면 `hooks/README.md`의 수동 설치로 훅을 따로 등록한다.
 
 자세히·수동 설치·이식성: `hooks/README.md`.
 
@@ -109,7 +107,7 @@ Claude Code CLI 사용자는 **플러그인 설치**가 1차 권장이다(스킬
 
 각 커맨드는 해당 스킬의 **아티팩트 우선 경로**로 진입시키는 얇은 래퍼다(`commands/*.md`). 아티팩트가 비면 일반 라우팅으로 넘어가고, 아티팩트에 없는 수치는 여전히 지어내지 않는다(철칙 유지).
 
-> **전제:** 슬래시 커맨드도 훅과 마찬가지로 **`bash install.sh`를 돌릴 때만** `~/.claude/commands/`에 설치된다. `npx skills add …`는 `skills/`만 복사한다. npx로만 설치했다면 `commands/*.md`가 로컬에 없으므로, **리포를 clone 해 `bash install.sh`를 돌리거나**(권장), clone한 리포의 `commands/*.md`를 `~/.claude/commands/`(전역) 또는 `<repo>/.claude/commands/`(프로젝트)로 직접 복사한다.
+> **전제:** 슬래시 커맨드는 **플러그인 설치**나 **`bash install.sh`**로 등록된다(플러그인은 `commands/`를 자동 로드, install.sh는 `~/.claude/commands/`로 복사). `npx skills add …`는 `skills/`만 복사하므로, npx로만 설치했다면 `commands/*.md`를 `~/.claude/commands/`(전역)나 `<repo>/.claude/commands/`(프로젝트)로 직접 복사한다.
 
 ### 병렬 처리 (fan-out)
 
