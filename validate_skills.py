@@ -21,8 +21,11 @@ REF_DIR = os.path.join(SKILLS_DIR, "CRO", "references")
 
 # 기능 스킬 본문 필수 섹션 (오케스트레이터 CRO 는 예외)
 # '철칙' = Iron Law 한 줄(압박 하에서도 지키는 불변 규율), '합리화 차단' = 변명→현실 표.
-REQUIRED_SECTIONS = ["철칙", "참조", "데이터 소스", "워크플로", "출력 형식",
-                     "안티패턴", "합리화 차단", "핸드오프"]
+# '아티팩트 우선' = 저마찰 진입점(URL·전사·CSV·파일을 바로 받는 fast path).
+REQUIRED_SECTIONS = ["철칙", "아티팩트 우선", "참조", "데이터 소스", "워크플로",
+                     "출력 형식", "안티패턴", "합리화 차단", "핸드오프"]
+# Task 툴을 선언한 스킬(오케스트레이터·forecast·market)은 fan-out 규약을 본문에 명시해야 한다.
+FANOUT_MARKERS = ["병렬 처리", "fan-out"]
 REF_LINK_RE = re.compile(r"~/\.claude/skills/CRO/references/([A-Za-z0-9._-]+\.md)")
 
 def parse_frontmatter(text: str):
@@ -84,6 +87,11 @@ def main() -> int:
             for sec in REQUIRED_SECTIONS:
                 if sec not in body:
                     errors.append(f"필수 섹션 누락: '{sec}'")
+
+        # Task 툴을 선언했으면 fan-out 규약이 본문에 있어야 한다 (문서 없는 병렬 실행 방지)
+        declares_task = fm is not None and re.search(r"^\s*-\s*Task\s*$", fm, re.MULTILINE)
+        if declares_task and not any(m in body for m in FANOUT_MARKERS):
+            errors.append("allowed-tools 에 Task 선언했으나 fan-out 규약(병렬 처리) 본문 없음")
 
         # 참조 무결성: 본문이 가리키는 reference 파일이 실제 존재하는가
         for ref in sorted(set(REF_LINK_RE.findall(text))):

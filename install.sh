@@ -137,11 +137,40 @@ PY
   echo
 fi
 
+# ── 슬래시 커맨드 설치 (선택, 기본 on) ───────────────────────────────────────
+# 저마찰 진입점: /cro-deal <url·전사·파일> 처럼 아티팩트를 바로 넘겨 스킬을 부른다.
+# commands/*.md 를 ~/.claude/commands/ 로 복사한다(같은 이름 있으면 타임스탬프 백업).
+# 끄려면: CRO_INSTALL_COMMANDS=0 bash install.sh
+if [ "${CRO_INSTALL_COMMANDS:-1}" = "1" ] && [ -d "$SRC_ROOT/commands" ]; then
+  CMD_DEST="$HOME/.claude/commands"
+  mkdir -p "$CMD_DEST"
+  cmd_count=0
+  for cmd in "$SRC_ROOT/commands"/*.md; do
+    [ -f "$cmd" ] || continue
+    base="$(basename "$cmd")"
+    dst="$CMD_DEST/$base"
+    # 내용이 같으면 백업 없이 건너뛰고, 다르면 기존본을 백업한 뒤 갱신.
+    # (cmp 부재 환경에선 비교를 건너뛰고 항상 백업+갱신 — 매 실행 백업이 쌓일 수 있음.)
+    if [ -f "$dst" ] && command -v cmp >/dev/null 2>&1 && cmp -s "$cmd" "$dst"; then
+      continue
+    fi
+    if [ -f "$dst" ]; then
+      cp "$dst" "$dst.bak.$STAMP"
+      echo "  커맨드 백업: $base -> $base.bak.$STAMP"
+    fi
+    cp "$cmd" "$dst"
+    cmd_count=$((cmd_count + 1))
+  done
+  echo "  커맨드: ${cmd_count}개 설치/갱신 -> $CMD_DEST (/cro-deal, /cro-forecast, … )"
+  echo
+fi
+
 echo "다음 단계:"
 echo "  1) Claude Code 세션 재시작"
 echo "  2) (선택) MCP 연결: $SRC_ROOT/.mcp.json.template 를 ~/.claude/mcp.json 또는 프로젝트 .mcp.json 에 병합"
 echo "  3) (선택) 사내 세일즈 자료 연결: export CRO_CORPUS_DIR=/path/to/notes"
 echo "  4) 대화에서 '/CRO' 또는 'GTM', '리드 제너레이션', '딜 블로커', '파이프라인 설계', '캠페인' 등으로 스킬 호출"
+echo "     저마찰 진입: '/cro-deal <Gong URL>' · '/cro-forecast pipeline.csv' 처럼 아티팩트를 바로 전달"
 echo "  5) 검증: python3 $SRC_ROOT/validate_skills.py"
 echo
 echo "GitHub에서 바로 설치하려면:"
