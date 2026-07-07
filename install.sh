@@ -174,4 +174,4 @@ echo "     저마찰 진입: '/cro-deal <Gong URL>' · '/cro-forecast pipeline.c
 echo "  5) 검증: python3 $SRC_ROOT/validate_skills.py"
 echo
 echo "GitHub에서 바로 설치하려면:"
-echo "  npx skills add Diseon/cro-skills-ko --skill CRO CRO-market CRO-deal CRO-account CRO-forecast CRO-org CRO-coaching -a claude-code -g"
+echo "  npx skills add DustinYoon/cro-skills-ko --skill CRO CRO-market CRO-deal CRO-account CRO-forecast CRO-org CRO-coaching -a claude-code -g"
