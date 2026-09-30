@@ -18,6 +18,12 @@
 | `CRO-org` | 팀·조직 설계 — 채용/인재상 · 보상/쿼터 · 역할 구조 · AI 네이티브 전환 · 인에이블먼트/램프 · 리더십(CEO/보드 정렬·신임 CRO 90일·승계) | "세일즈 채용", "보상 설계", "AI 세일즈 조직" |
 | `CRO-coaching` | 성과 운영 — 지표 코칭 · 1:1/QBR 케이던스 · 실시간 콜 코칭 · 신뢰 전이/프레즌스 | "코칭", "1:1", "약점 진단" |
 
+### 함께 들어 있는 스킬
+
+| 스킬 | 하는 일 | 예시 트리거 |
+|:--|:--|:--|
+| `korean-business-email` | 한국어 비즈니스 메일 작성·다듬기. 두괄식 구성, 발신자 관점, 개조식 글머리표, `[다음 할 일]` 블록, 타 고객사 실명 서면 주의, 오기 정정·수신인 설정 규칙을 적용합니다. 요청하면 Gmail 초안까지 만들고, 발송은 하지 않습니다. | "wrap-up 메일 써줘", "정정 메일", "대표님께 보고 메일" |
+
 ## 설치
 
 Claude Code CLI라면 **플러그인 설치**가 가장 깔끔합니다. 스킬, `/cro-*` 슬래시 커맨드, SessionStart 자동발화 훅이 한 번에 붙습니다.
@@ -35,6 +41,7 @@ claude plugin install cro-skills-ko@cro-skills-ko
 
 ```bash
 npx skills add DustinYoon/cro-skills-ko --skill CRO CRO-market CRO-deal CRO-account CRO-forecast CRO-org CRO-coaching -a claude-code -g
+npx skills add DustinYoon/cro-skills-ko --skill korean-business-email -a claude-code -g   # 메일 스킬만
 npx skills add DustinYoon/cro-skills-ko --list   # 설치 전 목록만 확인
 bash install.sh                          # ~/.claude/skills + SessionStart 훅 + 슬래시 커맨드
 bash install.sh <repo>/.claude/skills    # 프로젝트에 설치(팀 공유, 커밋)
